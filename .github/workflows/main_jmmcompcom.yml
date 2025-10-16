@@ -7,7 +7,7 @@ on:
 
 env:
   SOLUTION: Source/Microsoft.Teams.Apps.CompanyCommunicator.sln
-  WEB_PROJ: Source/CompanyCommunicator/CompanyCommunicator.csproj
+  WEB_PROJ: Source/CompanyCommunicator/Microsoft.Teams.Apps.CompanyCommunicator.csproj
   PUBLISH_DIR: ${{ github.workspace }}/publish_web
 
 jobs:
@@ -27,14 +27,13 @@ jobs:
 
       - name: Restore
         run: dotnet restore "${{ env.SOLUTION }}"
-
+      
       - name: Build (Release)
         run: dotnet build "${{ env.SOLUTION }}" --configuration Release --no-restore
-
-      # Publica SOLO el proyecto web para App Service
+      
       - name: Publish Web
         run: dotnet publish "${{ env.WEB_PROJ }}" -c Release -o "${{ env.PUBLISH_DIR }}" --no-build
-
+        
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -67,3 +66,4 @@ jobs:
           app-name: 'jmmcompcom'
           slot-name: 'Production'
           package: .
+
